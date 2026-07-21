@@ -1,4 +1,4 @@
-# Streamline
+# Streamline - !DEPRECATED!
 
 Personal productivity tracker (daily/monthly tasks, counters, routines, badges). Static frontend + a zero-dependency Python stdlib backend that persists data to a private GitHub repo.
 
