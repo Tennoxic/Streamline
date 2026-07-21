@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Streamline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/desktop.css" media="(min-width: 768px)" />
+  <link rel="stylesheet" href="css/mobile.css"  media="(max-width: 767px)" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#111214" />
+</head>
+<body>
+
+  <div id="login-screen" class="login-screen">
+    <div id="server-wake-indicator" class="server-wake-indicator hidden">
+      <div class="wake-spinner"></div>
+      <p class="wake-text">Waking up the server, please wait…</p>
+    </div>
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="logo-icon">⚡</span>
+        <h1 class="logo-text">Streamline</h1>
+      </div>
+      <p class="login-subtitle">Enter your username</p>
+      <div class="login-input-wrap">
+        <input type="text" id="login-input" class="login-input"
+          placeholder="Your name..." autocomplete="off" spellcheck="false" />
+        <button id="login-btn" class="login-btn">Log In</button>
+      </div>
+      <p id="login-error" class="login-error hidden">This user is not recognized.</p>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+
+    <header class="top-bar" id="top-bar">
+      <button class="back-btn hidden" id="back-btn" aria-label="Back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <span class="top-bar-title" id="top-bar-title">Streamline</span>
+      <div class="top-bar-right">
+        <span class="sync-indicator" id="sync-indicator">
+          <span class="sync-dot"></span>
+        </span>
+      </div>
+    </header>
+
+    <main class="view-container" id="view-container">
+
+      <div class="view active" id="view-home">
+        <div class="home-header">
+          <p class="home-greeting">Welcome,</p>
+          <h1 class="home-username" id="home-username"></h1>
+          <div class="home-brand">
+            <span class="brand-line"></span>
+            <span class="brand-name">Streamline</span>
+            <span class="brand-line"></span>
+          </div>
+        </div>
+        <nav class="home-grid" id="home-grid"></nav>
+      </div>
+
+      <div class="view" id="view-daily">
+        <div class="section-card">
+          <div class="daily-header">
+            <div class="view-top-row">
+              <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              </button>
+              <span class="daily-dayname" id="daily-dayname"></span>
+            </div>
+            <h2 class="daily-date" id="daily-date"></h2>
+            <p class="daily-sub" id="daily-sub"></p>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" id="daily-progress"></div>
+            </div>
+          </div>
+          <div class="task-list" id="daily-task-list"></div>
+          <div class="daily-notes-section hidden" id="daily-notes-section">
+            <div class="notes-divider"><span>Notes</span></div>
+            <div class="notes-list" id="daily-notes-list"></div>
+          </div>
+          <div class="card-footer">
+            <button class="add-task-btn wide-btn" id="daily-add-task-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Add Task
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-monthly">
+        <div class="section-card">
+          <div class="monthly-header">
+            <div class="view-top-row">
+              <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              </button>
+              <span class="section-title-small">Monthly View</span>
+            </div>
+            <div class="month-nav">
+              <button class="month-nav-btn" id="month-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 18l-6-6 6-6"/>
+                </svg>
+              </button>
+              <span class="month-label" id="month-label"></span>
+              <button class="month-nav-btn" id="month-next">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="month-day-list" id="month-day-list"></div>
+          <div class="card-footer monthly-footer">
+            <button class="secondary-btn" id="copy-month-btn">Copy to Next Month</button>
+            <button class="weekend-btn"   id="clear-weekends-btn">Clear Weekends</button>
+            <button class="danger-btn"    id="reset-month-btn">Reset This Month</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-counters">
+        <div class="section-card">
+          <div class="section-header">
+            <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </button>
+            <h2 class="section-title">Counters</h2>
+          </div>
+          <div class="counter-list" id="counter-list">
+            <div class="empty-state" id="counter-empty">
+              <span class="empty-icon">🔢</span>
+              <p>No counters created yet.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="wide-btn" id="add-counter-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Add Counter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-schemas">
+        <div class="section-card">
+          <div class="section-header">
+            <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </button>
+            <h2 class="section-title">Routines</h2>
+          </div>
+          <div class="schema-list" id="schema-list">
+            <div class="empty-state" id="schema-empty">
+              <span class="empty-icon">📋</span>
+              <p>No routines created yet.</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="wide-btn" id="add-schema-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Add Routine
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-profile">
+        <div class="section-card">
+          <div class="section-header" style="padding-bottom:0">
+            <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </button>
+          </div>
+          <div class="profile-header">
+            <div class="profile-identity">
+              <div class="profile-avatar" id="profile-avatar"></div>
+              <h2 class="profile-name" id="profile-name"></h2>
+            </div>
+            <div class="profile-right">
+              <div class="stats-tabs">
+                <button class="stats-tab active" data-period="weekly">Weekly</button>
+                <button class="stats-tab" data-period="monthly">Monthly</button>
+                <button class="stats-tab" data-period="yearly">Yearly</button>
+              </div>
+              <div class="stats-grid" id="stats-grid"></div>
+            </div>
+          </div>
+          <div class="recent-badges-section">
+            <p class="subsection-title">Recently Earned Badges</p>
+            <div class="recent-badges" id="recent-badges"></div>
+          </div>
+          <div id="import-export-section"></div>
+        </div>
+      </div>
+
+      <div class="view" id="view-badges">
+        <div class="section-card">
+          <div class="section-header">
+            <button class="mini-back-btn" onclick="navigate('home')" aria-label="Home">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </button>
+            <h2 class="section-title">Badges</h2>
+          </div>
+          <div class="badges-grid" id="badges-grid"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <div class="confirm-overlay hidden" id="confirm-overlay">
+      <div class="confirm-sheet">
+        <p class="confirm-message" id="confirm-message"></p>
+        <div class="confirm-actions">
+          <button class="confirm-btn confirm-no"  id="confirm-no">No</button>
+          <button class="confirm-btn confirm-yes" id="confirm-yes">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="modal-overlay"></div>
+
+    <div class="modal-sheet hidden" id="task-form-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-content" id="task-form-content"></div>
+    </div>
+    <div class="modal-sheet hidden" id="counter-form-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-content" id="counter-form-content"></div>
+    </div>
+    <div class="modal-sheet hidden" id="schema-form-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-content" id="schema-form-content"></div>
+    </div>
+    <div class="modal-sheet hidden" id="schema-name-modal">
+      <div class="modal-handle"></div>
+      <div class="modal-content" id="schema-name-content"></div>
+    </div>
+
+  </div>
+
+  <script src="js/modules/utils.js"></script>
+  <script src="js/modules/state.js"></script>
+  <script src="js/modules/api.js"></script>
+  <script src="js/modules/router.js"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/daily.js"></script>
+  <script src="js/views/monthly.js"></script>
+  <script src="js/views/counters.js"></script>
+  <script src="js/views/schemas.js"></script>
+  <script src="js/views/profile.js"></script>
+  <script src="js/views/badges.js"></script>
+  <script src="js/modules/modals.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[SW] Registered:', reg.scope))
+          .catch(err => console.warn('[SW] Registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
